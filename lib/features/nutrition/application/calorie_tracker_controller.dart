@@ -7,6 +7,8 @@ import '../../recognition/data/gemini_food_recognition_service.dart';
 import '../data/fatsecret_api_client.dart';
 import '../domain/tracked_meal_item.dart';
 
+const double kDailyKcalGoal = 2300.0;
+
 final imagePickerServiceProvider = Provider<ImagePickerService>(
   (ref) => ImagePickerService(),
 );
@@ -42,6 +44,15 @@ class CalorieTrackerState {
   final bool isLoading;
   final String? error;
   final List<TrackedMealItem> items;
+
+  double get totalCalories =>
+      items.fold(0, (sum, item) => sum + item.nutrition.calories);
+  double get totalProtein =>
+      items.fold(0, (sum, item) => sum + item.nutrition.protein);
+  double get totalCarbs =>
+      items.fold(0, (sum, item) => sum + item.nutrition.carbs);
+  double get totalFat =>
+      items.fold(0, (sum, item) => sum + item.nutrition.fat);
 
   CalorieTrackerState copyWith({
     bool? isLoading,
